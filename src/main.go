@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/bassmeets/bitbucket-cli-golang/internal/localgit"
+	"github.com/joho/godotenv"
 
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
@@ -25,6 +26,13 @@ var (
 
 	focusedButton = focusedStyle.Copy().Render("[ Submit ]")
 	blurredButton = fmt.Sprintf("[ %s ]", blurredStyle.Render("Submit"))
+
+	// env variables
+	BRANCHES     []string
+	BB_WORKSPACE string
+	BB_REPO      string
+	BB_USERNAME  string
+	BB_PASSWORD  string
 )
 
 type model struct {
@@ -174,9 +182,41 @@ func (m model) View() string {
 }
 
 func main() {
-	localgit.Checkout("test")
+	readEnv()
+	// git pull
+	// git checkout basebranch
+	// git new branch
+	// git cherry-pick
+	// git push
+	// raise pr
+	// change to next branch
+	localgit.NewBranch("test")
+	localgit.ChangeBranch("main")
+	// localgit.CherryPickCommit("123")
 	if _, err := tea.NewProgram(initialModel()).Run(); err != nil {
 		fmt.Printf("could not start program: %s\n", err)
 		os.Exit(1)
+	}
+}
+
+// load .bb.env into env
+func readEnv() {
+	err := godotenv.Load(".bb.env")
+	if err != nil {
+		fmt.Println("Error loading .env file")
+		os.Exit(1)
+	}
+	parseBranches()
+
+}
+
+func parseBranches() {
+	branchesNoSpace := strings.Replace(os.Getenv("BRANCHES"), " ", "", -1)
+	BRANCHES = strings.Split(branchesNoSpace, ",")
+	if os.Getenv("DRY_RUN") == "true" {
+		for _, str := range BRANCHES {
+			fmt.Println("Going to raise PR to branches:")
+			fmt.Printf("%s\n", str)
+		}
 	}
 }

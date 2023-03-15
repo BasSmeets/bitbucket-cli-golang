@@ -6,7 +6,8 @@ require (
 	github.com/charmbracelet/bubbles v0.15.0
 	github.com/charmbracelet/bubbletea v0.23.2
 	github.com/charmbracelet/lipgloss v0.7.1
-	github.com/ldez/go-git-cmd-wrapper/v2 v2.4.0
+	github.com/joho/godotenv v1.5.1
+	github.com/ldez/go-git-cmd-wrapper/v2 v2.5.0
 )
 
 require (

@@ -11,6 +11,7 @@ To use
 * https://github.com/ldez/go-git-cmd-wrapper
 * cli framework - https://github.com/charmbracelet/bubbletea
 * https://github.com/ktrysmt/go-bitbucket
+* https://github.com/joho/godotenv
 
 
 
